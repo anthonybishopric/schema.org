@@ -1,33 +1,44 @@
+:::INSTALLATION:::
+
+--
+cd vendor/plugins
+git clone git://github.com/anthonybishopric/schema.org.git schemaorg
+--
+
+::USAGE::
+
+# Let's say you have a Bird model
+
 class Bird < ActiveRecord::Base
 
-  microdata_item :thing
-  microdata_attributes :birth => :birthDate
+  validates_presence_of :name, :birth
+
+  microdata_item :thing 						# the name of the schema
+  microdata_attributes :birth => :birthDate 	# explicit mapping of attribute if necessary
   
-  def birth
-    DateTime.now
+  def birth 									# works with both ActiveModel::Attributes and regular methods
+    DateTime.now 
   end
   
 end
 
-# here's an instance of it
-
-bird{
-   name: 'Foo',
-   birth: '2011-06-05'
-}
+# here's an instance of it we make available in a controller
+# @bird{
+#   name: 'Foo',
+#   birth: '2011-06-05'
+# }
 
 ---------------------
 
+<!-- In an erb with access to the @bird -->
 
-<!-- In an erb with access to the Bird -->
-
-<%= micro @bird do |metabird|%>
+<%= micro @bird do |metabird|%>  <!-- micro helper added to ActionView::Base -->
 
   <b>Name:</b>
   <%= metabird.name %>
 
   <p>Born:</p>
-  <%= metabird.birth.strftime("%B %d, %Y")%>
+  <%= metabird.birth.strftime("%B %d, %Y")%>   <!-- perform formatting operations on meta model -->
 
 <%end%>
 
@@ -36,9 +47,16 @@ bird{
 <span class='meta' itemscope itemtype='http://schema.org/Thing'> 
  
   <b>Name:</b> 
-  <span class='meta' itemprop='name'>Foo&lt;b&gt;foo&lt;/b&gt;</span> 
+  <span class='meta' itemprop='name'>Foo&lt;b&gt;foo&lt;/b&gt;</span> <!-- safe html output. can still use html_safe if you like -->
  
   <p>Born:</p> 
-  <time itemprop='birthDate' datetime='2011-06-05'>June 05, 2011</time> 
+  <time itemprop='birthDate' datetime='2011-06-05'>June 05, 2011</time> <!-- schema.org datetime fields handled gracefully.-->
  
 </span>
+
+::TODO::
+
+* Regression tests
+* Convert to Gem
+* Better association handling
+* Schema validation

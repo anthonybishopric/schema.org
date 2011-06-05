@@ -30,7 +30,7 @@ module SchemaOrg
       def microdata_item(item_type)
       
         singleton_class.redefine_method :schema_location do
-          "http://schema.org/#{item_type.to_s.capitalize}"
+          "http://schema.org/#{item_type.to_s.camelize}"
         end
 
       end
