@@ -1,9 +1,14 @@
-A ruby bird model:
+Bird < ActiveRecord::Base
 
-Bird{
+here's an instance of it
+
+bird{
    name: 'Foo',
    birth: '2011-06-05'
 }
+
+---------------------
+
 
 <!-- In an erb with access to the Bird -->
 
