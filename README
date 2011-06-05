@@ -1,13 +1,30 @@
-Schemaorg
-=========
+A ruby bird model:
 
-Introduction goes here.
+Bird{
+   name: 'Foo',
+   birth: '2011-06-05'
+}
 
+<!-- In an erb with access to the Bird -->
 
-Example
-=======
+<%= micro @bird do |metabird|%>
 
-Example goes here.
+  <b>Name:</b>
+  <%= metabird.name %>
 
+  <p>Born:</p>
+  <%= metabird.birth.strftime("%B %d, %Y")%>
 
-Copyright (c) 2011 [name of plugin creator], released under the MIT license
+<%end%>
+
+<!-- results in -->
+ 
+<span class='meta' itemscope itemtype='http://schema.org/Thing'> 
+ 
+  <b>Name:</b> 
+  <span class='meta' itemprop='name'>Foo&lt;b&gt;foo&lt;/b&gt;</span> 
+ 
+  <p>Born:</p> 
+  <time itemprop='birthDate' datetime='2011-06-05'>June 05, 2011</time> 
+ 
+</span>
