@@ -1,6 +1,15 @@
-Bird < ActiveRecord::Base
+class Bird < ActiveRecord::Base
 
-here's an instance of it
+  microdata_item :thing
+  microdata_attributes :birth => :birthDate
+  
+  def birth
+    DateTime.now
+  end
+  
+end
+
+# here's an instance of it
 
 bird{
    name: 'Foo',
